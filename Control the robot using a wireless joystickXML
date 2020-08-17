@@ -1,0 +1,56 @@
+<launch>
+
+    <!-- iRobot create -->
+
+   <arg name="config" default="$(find ca_driver)/config/default.yaml" ></arg>
+
+   <arg name="desc" default="true" ></arg>
+
+   <node name="ca_driver" pkg="ca_driver" type="ca_driver" output="screen">
+
+    <rosparam command="load" file="$(arg config)" ></rosparam>
+
+    <param name="robot_model" value="CREATE_1" />
+
+   </node>
+
+   
+
+   <include if="$(arg desc)" file="$(find ca_description)/launch/create_1.launch" ></include>
+
+  <!-- joystick -->   
+
+  <arg name="joy_dev" default="/dev/input/js0" ></arg>
+
+  <arg name="joy_config" default="xbox360" ></arg>
+
+  <arg name="teleop_config" default="$(find ca_tools)/config/$(arg joy_config).yaml" ></arg>
+
+  <rosparam file="$(arg teleop_config)" command="load" ></rosparam>
+
+  <node pkg="joy" type="joy_node" name="joy_node">
+
+    <param name="dev" value="$(arg joy_dev)" />
+
+    <param name="deadzone" value="0.2" />
+
+    <param name="autorepeat_rate" value="20" />
+
+  </node>
+
+  <node pkg="joy_teleop" type="joy_teleop.py" name="joy_teleop">
+
+   
+</launch>
+
+ 
+
+</launch>
+
+repository on github
+
+victoruni / tod_robot1
+
+0 0
+
+Robot based on tu
