@@ -1,0 +1,51 @@
+
+
+
+
+   <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch"></include>
+
+   <!-- iRobot create -->
+
+   <arg name="config" default="$(find ca_driver)/config/default.yaml" ></arg>
+
+   <arg name="desc" default="true" ></arg>
+
+   <node name="ca_driver" pkg="ca_driver" type="ca_driver" output="screen">
+
+    <rosparam command="load" file="$(arg config)" ></rosparam>
+
+    <param name="robot_model" value="CREATE_1" />
+
+   </node>
+
+   
+
+   <include if="$(arg desc)" file="$(find ca_description)/launch/create_1.launch" ></include>
+
+   <!-- camera -->
+
+   <node name="web_video_server1" pkg="web_video_server" type="web_video_server">
+
+  </node>
+
+  <node name="usb_cam0" pkg="usb_cam" type="usb_cam_node" output="screen" >
+
+    <param name="video_device" value="/dev/video0"></param>
+
+    <param name="image_width" value="320"></param>
+
+    <param name="image_height" value="240"></param>
+
+    <param name="pixel_format" value="yuyv"></param>
+
+    <param name="camera_frame_id" value="usb_cam"></param>
+
+    <param name="io_method" value="mmap"></param>
+
+  </node>
+
+  
+
+ 
+
+</launch>
